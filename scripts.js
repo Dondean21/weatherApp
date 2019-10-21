@@ -2,11 +2,18 @@ $(document).ready(function(){
 
 var APIKey = "166a433c57516f51dfab1f7edaed8413";
 
-let  citys= JSON.parse(localStorage.getItem("storage")) || [];
+// let  citys= JSON.parse(localStorage.getItem("storage"));
 
 
-  
 appTown();
+
+// loadUp();
+
+// function loadUp(){
+//     console.log(citys[]);
+
+// };
+  
 
 
 function appTown(){
@@ -154,8 +161,10 @@ var previous = function () {
        localStorage["city" + storage[index]] = $(".search").val();
        index++;
    }
-   
-}
+//    console.log(JSON.parse(storage[index], "storage[index]"));
+};
+
+
 
 
 // $("#searchBtn").on("click",function(){
