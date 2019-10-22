@@ -2,17 +2,44 @@ $(document).ready(function(){
 
 var APIKey = "166a433c57516f51dfab1f7edaed8413";
 
-// let  citys= JSON.parse(localStorage.getItem("storage"));
+var cityInput = document.querySelector(".search");
+var previous = document.querySelector("#lastResults");
+
+var cities = [];
 
 
 appTown();
 
-// loadUp();
+init();
 
-// function loadUp(){
-//     console.log(citys[]);
+function renderCities(){
+     lastResults.innerHTML = "";
 
-// };
+    for(var i = 0; i < cities.length; i++){
+        var city = cities[i];
+
+        var li = document.createElement("li");
+        li.textContent=city;
+        li.setAttribute("data-index", i);
+
+        lastResults.appendChild(li);
+
+    }
+}
+
+function init() {
+
+    var storedCities = JSON.parse(localStorage.getItem("cities"));
+
+    if(storedCities !== null){
+        cities = storedCities;
+    }
+    renderCities();
+}
+
+function storeCities(){
+    localStorage.setItem("cities", JSON.stringify(cities))
+}
   
 
 
@@ -79,7 +106,7 @@ $("#searchBtn").on("click", function(event){
     event.preventDefault();
     var city = $(".search").val();
     // updateStorage();
-    previous();
+    // previous();
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",US&units=imperial&appid=" + APIKey;
     var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + ",US&units=imperial&appid=" + APIKey;
     $.ajax({
@@ -150,21 +177,95 @@ $("#searchBtn").on("click", function(event){
     });
 });
 
-var storage = ["one", "two", "three", "four", "five", "six"];
-var index = 0;
-var previous = function () {
-   if (index < 6) {
-       localStorage["city" + storage[index]] = $(".search").val();
-       index++;
-   } else {
-       index = 0;
-       localStorage["city" + storage[index]] = $(".search").val();
-       index++;
-   }
-//    console.log(JSON.parse(storage[index], "storage[index]"));
-};
+ 
+$("#searchBtn").on("click", function(event){
+    event.preventDefault();
+    
+    var cityText = cityInput.value.trim();
+
+    if(cityText === ""){
+        return;
+    }
+    cities.push(cityText);
+    cityInput.value = "";
+
+    storeCities();
+    renderCities();
+});
 
 
+
+
+
+//  let cities = JSON.parse(localStorage.getItem("cities")) || [];
+//  let lastCityID = localStorage.getItem("lastCityID") || 0;
+ 
+//  const updateStorage = () =>{
+
+//     localStorage.setItem("cities", JSON.stringify(cities));
+//     localStorage.setItem("lastCityID", lastCityID);
+//  }
+
+//   $("#searchBtn").on("click", function(event){
+//     event.preventDefault();
+//    const newCity = {
+// city: $(".search").val()
+
+//    };
+
+//    cities.push(newCity);
+
+//    updateStorage();
+//    renderCities();
+
+//  } );
+
+//  const renderCities = city => {
+   
+//     if(!city) city = cities;
+//     city.forEach((city)=> {
+//     const tbody = $(".list-group tbody");
+//     const row = `<td>${city.cities}</td><td>${city.cities}</td><td>${city.cities}</td>`
+//     tbody.append(row);
+//  });
+
+//  }
+// var storage = ["one", "two", "three", "four", "five", "six"];
+// var index = 0;
+// var previous = function () {
+//    if (index < 6) {
+//        localStorage["city" + storage[index]] = $(".search").val();
+//        index++;
+//    } else {
+//        index = 0;
+//        localStorage["city" + storage[index]] = $(".search").val();
+//        index++;
+//    }
+   
+   
+     
+// };
+
+ 
+// storage[0].text = "<li>"+localStorage.getItem("storage[index]")+"</li>";
+
+
+// function saveCities(data){
+//     citys = $(".search").val();
+//     var a = [];
+
+//     a = JSON.parse(localStorage.getItem(citys));
+//     console.log(a);
+
+//     localStorage.setItem("citys", JSON.stringify(a));
+// }
+
+    // localStorage.setItem("userInput", userInput);
+    // var lg = document.getElementsByClassName("list-group2")
+   
+
+        // lg[storage[index]].innerHTML = "<li>"+localStorage.getItem("storage[index]", storage)+"</li>";
+        // lg[0].innerHTML = "<li>"+localStorage.getItem("userInput")+"</li>";
 
 
 // $("#searchBtn").on("click",function(){
